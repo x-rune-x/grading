@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import AddClimb from '../views/AddClimb.vue'
+import Climb from '../views/Climb.vue'
 
 const routes = [
   {
@@ -12,6 +13,12 @@ const routes = [
     path: '/AddClimb',
     name: 'AddClimb',
     component: AddClimb
+  },
+  {
+    path: '/climb/:id',
+    name: 'Climb',
+    component: Climb,
+    props: true
   }
 ]
 

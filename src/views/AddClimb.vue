@@ -31,7 +31,7 @@ export default {
 
       const climbsRef = collection(db, 'climbs')
       await addDoc(climbsRef, {
-        station: station.value,
+        station: parseInt(station.value),
         grade: parseInt(grade.value),
         colour: colour.value.toLowerCase(),
         current: true,        
