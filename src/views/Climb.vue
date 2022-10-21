@@ -10,8 +10,8 @@
     <label for="grade">Grade</label>
     <span name="grade">{{climb.grade}}</span>
 
-    <label for="grade">Current</label>
-    <span name="grade">{{climb.current}}</span>
+    <label for="current">Current</label>
+    <input ref="currentElement" type="checkbox" name="current" class="toggleCurrent" @click="handleCurrentClick()">
 
     <ul>
       <li v-for="grade in climb.sGrades" :key="grade.number">
@@ -28,25 +28,29 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { db } from '../firebase/config';
 import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from '@firebase/firestore';
-
 
 export default {
   name: 'Climb',
   props: ['id'],
   setup(props) { 
-    const climb = ref({})   
+    const climb = ref({}) 
+    const currentElement = ref(null)  
 
     const unsub = onSnapshot(doc(db, 'climbs', props.id), (climbSnap) => {
       climb.value = climbSnap.data()
-      console.log(climb.value)
+      console.log(climb.value)      
     })
 
     watchEffect((onInvalidate) => {
       onInvalidate(() => unsub())
-    })
+
+      if (climb.value.current == true) {
+        currentElement.value.checked = 'true'
+      } 
+    })   
 
     const submitGrade = async () => {
       const climbRef = doc(db, 'climbs', props.id)
@@ -61,7 +65,21 @@ export default {
       })
     }
 
-    return { climb, submitGrade }
+    const updateCurrentStatus = async (currentStatus) => {
+      const climbRef = doc(db, 'climbs', props.id) 
+      console.log('Changing status')     
+
+      await updateDoc(climbRef, {
+        current: currentStatus
+      })
+    }
+
+    const handleCurrentClick = () => {
+      const currentStatus = currentElement.value.checked
+      updateCurrentStatus(currentStatus)
+    }
+
+    return { climb, submitGrade, currentElement, handleCurrentClick }
   }
 }
 </script>
