@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <p>Homepage</p>
-    <ul>
+    <ul class="body">
       <li v-for="climb in currentClimbs" :key="climb.id">
         <div>{{ climb.station }}</div>
         <router-link :to="{ name: 'Climb', params: { id: climb.id } }">          
@@ -37,3 +37,7 @@ export default {
     }    
 }
 </script>
+
+<style>
+  
+</style>

@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import { ref, watch, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { db } from '../firebase/config';
-import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from '@firebase/firestore';
+import { arrayUnion, doc, onSnapshot, updateDoc } from '@firebase/firestore';
 
 export default {
   name: 'Climb',
