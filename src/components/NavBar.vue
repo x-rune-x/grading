@@ -6,15 +6,34 @@
       </router-link>
 
       <router-link :to="{ name: 'Signup' }">
-        <span>Signup</span>
+        <span>Sign up</span>
       </router-link>
+
+      <router-link :to="{ name: 'Login' }">
+        <span>Login</span>
+      </router-link>
+
+      <button @click="handleSignout">Logout</button>
     </nav>
   </div>
 </template>
 
 <script>
-export default {
+import { auth } from '../firebase/config';
+import { signOut } from '@firebase/auth';
+import { useRouter } from 'vue-router';
 
+export default {
+  setup() {
+    const router = useRouter()
+    const handleSignout = () => {
+      signOut(auth)
+
+      router.push('/')
+    }
+
+    return { handleSignout }
+  }
 }
 </script>
 

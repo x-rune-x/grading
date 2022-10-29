@@ -31,13 +31,15 @@
 import { ref, watchEffect } from 'vue'
 import { db } from '../firebase/config';
 import { arrayUnion, doc, onSnapshot, updateDoc } from '@firebase/firestore';
+import getUser from '../composables/getUser';
 
 export default {
   name: 'Climb',
   props: ['id'],
   setup(props) { 
     const climb = ref({}) 
-    const currentElement = ref(null)  
+    const currentElement = ref(null) 
+    const { user } = getUser() 
 
     const unsub = onSnapshot(doc(db, 'climbs', props.id), (climbSnap) => {
       climb.value = climbSnap.data()
@@ -60,7 +62,7 @@ export default {
         sGrades: arrayUnion({
           number: number,
           sGrade: parseInt(document.getElementById('gradeInput').value),
-          user: 'Evan'
+          user: user.displayName
         })
       })
     }

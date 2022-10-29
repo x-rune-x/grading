@@ -11,14 +11,13 @@ const signup = async (email, password, displayName) => {
   isPending.value = true
 
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
       const user = userCredential.user
       updateProfile(user, {displayName: displayName})
-    })
-
-    if (!res) {
+    }).catch((updateProfileError) => {
+      console.log(updateProfileError)
       throw new Error('Could not complete signup')
-    }
+    })
   } catch (err) {
     error.value = err.message
     isPending = false
