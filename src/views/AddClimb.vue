@@ -1,6 +1,6 @@
-<template>
-  <h3>Add Climb</h3>
+<template>  
   <form @submit.prevent="handleSubmit">
+    <h3>Add Climb</h3>
     <label for="station">Station</label>
     <input type="text" name="station" v-model="station">
 

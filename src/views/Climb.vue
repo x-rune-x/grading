@@ -58,13 +58,20 @@ export default {
       const climbRef = doc(db, 'climbs', props.id)
       const number = climb.value.sGrades.length + 1
 
-      await updateDoc(climbRef, {
+      const gradeInfo = user ? {
         sGrades: arrayUnion({
           number: number,
           sGrade: parseInt(document.getElementById('gradeInput').value),
-          user: user.displayName
+          user: user.uid
         })
-      })
+      } : {
+        sGrades: arrayUnion({
+          number: number,
+          sGrade: parseInt(document.getElementById('gradeInput').value)
+        })
+      }
+
+      await updateDoc(climbRef, gradeInfo)
     }
 
     const updateCurrentStatus = async (currentStatus) => {
