@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
 import { auth } from '../firebase/config'
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth'
 
 const error = ref(null)
 const isPending = ref(false)
@@ -14,6 +14,7 @@ const signup = async (email, password, displayName) => {
     await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
       const user = userCredential.user
       updateProfile(user, {displayName: displayName})
+      sendEmailVerification(user)
     }).catch((updateProfileError) => {
       console.log(updateProfileError)
       throw new Error('Could not complete signup')

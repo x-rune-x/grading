@@ -62,7 +62,8 @@ export default {
         sGrades: arrayUnion({
           number: number,
           sGrade: parseInt(document.getElementById('gradeInput').value),
-          user: user.uid
+          user: user.displayName,
+          userId: user.uid
         })
       } : {
         sGrades: arrayUnion({

@@ -5,6 +5,7 @@ import Climb from '../views/Climb.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import UserDetails from '../views/UserDetails.vue'
+import Verify from '../views/Verify.vue'
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: '/UserDetails',
     name: 'UserDetails',
     component: UserDetails
+  },
+  {
+    path: '/Verify',
+    name: 'Verify',
+    component: Verify
   }
 ]
 

@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 
 import { auth } from '../firebase/config'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { useRouter } from 'vue-router'
 
 const error = ref(null)
 const isPending = ref(false)
@@ -15,6 +16,11 @@ const login = async (email, password) => {
 
     if (!res) {
       throw new Error('Could not login.')
+    }
+
+    if (res.user.emailVerified == false) {
+      signOut(auth)
+      error.value = "Please verify your email address."
     }
   } catch (err) {
     error.value = err.message

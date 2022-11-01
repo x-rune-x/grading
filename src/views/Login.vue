@@ -3,10 +3,10 @@
     <form @submit.prevent="handleLogin">
       <h3>Login</h3>
       <label for="email">Enter email</label>
-      <input type="email" name="email" v-model="email" required>
+      <input type="email" name="email" v-model="email" required autocomplete="email">
 
       <label for="password">Enter password</label>
-      <input type="password" name="password" v-model="password" required>
+      <input type="password" name="password" v-model="password" required autocomplete="current-password">
 
       <button>Signin</button>
       <div v-if="error" class="error">{{ error }}</div>
