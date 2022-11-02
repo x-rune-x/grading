@@ -6,6 +6,7 @@ import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import UserDetails from '../views/UserDetails.vue'
 import Verify from '../views/Verify.vue'
+import About from '../views/About.vue'
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/Verify',
     name: 'Verify',
     component: Verify
+  },
+  {
+    path: '/About',
+    name: 'About',
+    component: About
   }
 ]
 

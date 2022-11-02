@@ -3,9 +3,9 @@
   <div class="content">
     <div class="main">
       <router-view/>
-    </div>    
-    <FooterBar/>
-  </div>  
+    </div>       
+  </div> 
+  <FooterBar/> 
 </template>
 
 <script>

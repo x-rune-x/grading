@@ -20,6 +20,8 @@ export default {
     const { user } = getUser()    
     const message = ref(null)
 
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
     const handlePasswordReset = () => {
       sendPasswordResetEmail(auth, user.value.email).then(() => {
         console.log('Sending password reset email.')

@@ -1,12 +1,17 @@
 <template>
   <div class="footer">
-    <router-link :to="{ name: 'Home' }">
-      <span>Home</span>
-    </router-link>
-    <div class="logo">
-      <img src="@/assets/anzus1.png" alt="rune logo">
-      <p ref="para">{{ para }}</p>
-    </div>
+    <div class="content">
+      <router-link :to="{ name: 'Home' }">
+        <span>Home</span>
+      </router-link>
+      <router-link :to="{ name: 'About' }">
+        <span>About</span>
+      </router-link>
+      <div class="logo">
+        <img src="@/assets/anzus1.png" alt="rune logo">
+        <p ref="para">{{ para }}</p>
+      </div>
+    </div>    
   </div>
 </template>
 
@@ -25,6 +30,7 @@ export default {
 <style>
   .footer {
     border-top: solid 1px black;
+    width: 100vw;
   }
   img {
     max-height: 40px;   

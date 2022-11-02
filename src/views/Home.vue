@@ -23,6 +23,9 @@ export default {
     setup() {
         const currentClimbs = ref([]);
         const currentQuery = query(collection(db, "climbs"), where("current", "==", true));
+
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+
         getDocs(currentQuery)
             .then(snap => {
             let climbs = [];

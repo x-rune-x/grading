@@ -41,15 +41,13 @@ export default {
     const currentElement = ref(null) 
     const { user } = getUser() 
 
-    const unsub = onSnapshot(doc(db, 'climbs', props.id), (climbSnap) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    onSnapshot(doc(db, 'climbs', props.id), (climbSnap) => {
       climb.value = climbSnap.data()
-      console.log(climb.value)      
     })
 
-    watchEffect((onInvalidate) => {
-      console.log('Watching effect.')
-      onInvalidate(() => unsub())
-
+    watchEffect(() => { 
       if (climb.value.current == true) {
         currentElement.value.checked = 'true'
       } 

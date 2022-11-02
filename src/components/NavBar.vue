@@ -1,30 +1,32 @@
 <template>
   <div class="header">
     <nav>
-      <router-link :to="{ name: 'Home' }">
-        <h1 class="title">Urban Climb lead grades</h1>
-      </router-link>
-
-      <div v-if="!user">
-        <router-link :to="{ name: 'Signup' }">
-          <span>Sign up</span>
+      <div class="content">
+        <router-link :to="{ name: 'Home' }">
+          <h1 class="title">Urban Climb lead grades</h1>
         </router-link>
 
-        <router-link :to="{ name: 'Login' }">
-          <span>Login</span>
+        <div v-if="!user">
+          <router-link :to="{ name: 'Signup' }">
+            <span>Sign up</span>
+          </router-link>
+
+          <router-link :to="{ name: 'Login' }">
+            <span>Login</span>
+          </router-link>
+        </div>      
+
+        <div v-if="user">
+          <button @click="handleSignout">Logout</button>
+          <router-link :to="{ name: 'UserDetails' }">
+            <span>{{ user.displayName }}</span>
+          </router-link>        
+        </div>
+
+        <router-link :to="{ name: 'AddClimb' }">
+          <button>Add climb</button>
         </router-link>
       </div>      
-
-      <div v-if="user">
-        <button @click="handleSignout">Logout</button>
-        <router-link :to="{ name: 'UserDetails' }">
-          <span>{{ user.displayName }}</span>
-        </router-link>        
-      </div>
-
-      <router-link :to="{ name: 'AddClimb' }">
-        <button>Add climb</button>
-      </router-link>
     </nav>
   </div>
 </template>
@@ -55,5 +57,6 @@ export default {
   .header {
     border-bottom: solid 1px black;
     margin-bottom: 10px;
+    width: 100vw;
   }
 </style>

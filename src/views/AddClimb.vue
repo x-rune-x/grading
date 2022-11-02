@@ -26,6 +26,8 @@ export default {
     const colour = ref('')
     const grade = ref('')
 
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
     const handleSubmit = async () => {
       console.log(station.value, colour.value, grade.value)
 
