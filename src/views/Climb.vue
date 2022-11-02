@@ -47,6 +47,7 @@ export default {
     })
 
     watchEffect((onInvalidate) => {
+      console.log('Watching effect.')
       onInvalidate(() => unsub())
 
       if (climb.value.current == true) {
@@ -58,12 +59,13 @@ export default {
       const climbRef = doc(db, 'climbs', props.id)
       const number = climb.value.sGrades.length + 1
 
-      const gradeInfo = user ? {
+      // Not sure if we want only registered users to be able to submit grades or not.
+      const gradeInfo = user.value ? {
         sGrades: arrayUnion({
           number: number,
           sGrade: parseInt(document.getElementById('gradeInput').value),
-          user: user.displayName,
-          userId: user.uid
+          user: user.value.displayName,
+          userId: user.value.uid
         })
       } : {
         sGrades: arrayUnion({
