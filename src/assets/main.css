@@ -6,6 +6,7 @@
   --text: rgb(43, 42, 42);
   --primary: #4b60be;
   --secondary: #23aed1;
+  --tertiary: #8ae8ff;
   --warning: #f72828;
 }
 
@@ -13,7 +14,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Cabin';
   color: var(--text);
 }
 body {
@@ -25,17 +26,21 @@ a {
 
 /* buttons */
 button, .btn { 
-  background: var(--secondary);
+  background: var(--tertiary);
   border-radius: 8px;
   border: 0;
   padding: 8px 12px;
   font-weight: 600;
   cursor: pointer;
   display: inline-block;
+  outline: 2px solid var(--secondary);
+  transition: all ease 0.1s;
 }
 button:hover, .btn:hover {
-  background: var(--primary);
-  color: white;
+  background: #63e0ff;
+  color: rgb(27, 29, 37);
+  outline: 2px solid #6475c2;
+  transition: all ease 0.1s;
 }
 button:disabled {
   opacity: 0.5;

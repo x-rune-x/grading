@@ -1,33 +1,33 @@
 <template>
   <div class="header">
     <nav>
-      <div class="content">
+      <div class="leftComponents">
         <router-link :to="{ name: 'Home' }">
-          <h1 class="title">Urban Climb lead grades</h1>
+          <h1 class="title headerComponent">Urban Climb lead grades</h1>
         </router-link>
-
-        <div v-if="!user">
-          <router-link :to="{ name: 'Signup' }">
-            <span>Sign up</span>
-          </router-link>
-
-          <router-link :to="{ name: 'Login' }">
-            <span>Login</span>
-          </router-link>
-        </div>      
-
-        <div v-if="user">
-          <button @click="handleSignout">Logout</button>
-          <router-link :to="{ name: 'UserDetails' }">
-            <span>{{ user.displayName }}</span>
-          </router-link>        
-        </div>
 
         <router-link :to="{ name: 'AddClimb' }">
-          <button>Add climb</button>
+          <button class="headerComponent">Add climb</button>
         </router-link>
       </div>      
-    </nav>
+
+      <div v-if="!user" class="headerComponent user">
+        <router-link :to="{ name: 'Signup' }">
+          <span>Sign up</span>
+        </router-link>
+
+        <router-link :to="{ name: 'Login' }">
+          <span>Login</span>
+        </router-link>
+      </div>      
+
+      <div v-if="user" class="headerComponent user">          
+        <router-link :to="{ name: 'UserDetails' }">
+          <span class="headerComponent userComp">{{ user.displayName }}</span>
+        </router-link>   
+        <button @click="handleSignout">Logout</button>     
+      </div>
+    </nav>    
   </div>
 </template>
 
@@ -53,10 +53,32 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .header {
-    border-bottom: solid 1px black;
+    border-bottom: solid 1px var(--secondary);
     margin-bottom: 10px;
-    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+  nav {   
+    display: flex;
+    align-items: center;
+    width: 80vw;
+    padding: 20px 0;
+    justify-content: space-between;
+  }
+  .headerComponent {
+    display: inline-block;
+  }
+  .title {
+    font-size: 32px;
+    padding-right: 20px;
+  }
+  .userComp {
+    padding: 0 10px;
+  }
+  .leftComponents {
+    display: flex;
+    align-items: center;
   }
 </style>

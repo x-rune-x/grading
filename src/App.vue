@@ -21,10 +21,8 @@ import FooterBar from './components/Footer.vue'
 <style>
   .content {
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 80vw;
+    height: 80vh;
     padding: 0 20px;
-  }
-  .main {
-    height: 90vh;
   }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <div class="footer">
-    <div class="content">
-      <router-link :to="{ name: 'Home' }">
+    <div class="links">
+      <router-link :to="{ name: 'Home' }" class="footerComponent">
         <span>Home</span>
       </router-link>
       <router-link :to="{ name: 'About' }">
         <span>About</span>
-      </router-link>
-      <div class="logo">
-        <img src="@/assets/anzus1.png" alt="rune logo">
-        <p ref="para">{{ para }}</p>
-      </div>
+      </router-link>      
+    </div>
+    <div class="logo">
+      <img src="@/assets/anzus1.png" alt="rune logo">
+      <p ref="para">{{ para }}</p>
     </div>    
   </div>
 </template>
@@ -27,13 +27,30 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .footer {
-    border-top: solid 1px black;
-    width: 100vw;
+    border-top: solid 1px var(--secondary);
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   img {
-    max-height: 40px;   
-    display: inline-block; 
+    max-height: 40px;
+  }
+  .logo {
+    display: flex;
+    padding-top: 10px;
+    align-items: center;
+  }
+  .footerComponent {
+    padding: 10px;
+  }
+  p {
+    font-size: small;
+  }
+  .links {
+    padding: 10px;
   }
 </style>
