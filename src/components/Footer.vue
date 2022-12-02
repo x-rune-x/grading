@@ -29,7 +29,7 @@ export default {
 
 <style scoped>
   .footer {
-    border-top: solid 1px var(--secondary);
+    border-top: solid 2px var(--secondary);
     margin: 10px 0;
     display: flex;
     justify-content: center;

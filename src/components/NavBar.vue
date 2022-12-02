@@ -55,7 +55,7 @@ export default {
 
 <style scoped>
   .header {
-    border-bottom: solid 1px var(--secondary);
+    border-bottom: solid 2px var(--secondary);
     margin-bottom: 10px;
     display: flex;
     justify-content: center;
@@ -63,7 +63,7 @@ export default {
   nav {   
     display: flex;
     align-items: center;
-    width: 80vw;
+    width: 90vw;
     padding: 20px 0;
     justify-content: space-between;
   }
@@ -71,8 +71,8 @@ export default {
     display: inline-block;
   }
   .title {
-    font-size: 32px;
-    padding-right: 20px;
+    font-size: 25px;
+    text-align: left;
   }
   .userComp {
     padding: 0 10px;

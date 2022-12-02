@@ -1,23 +1,7 @@
 <template>
-  <div class="home">
-    <h2>Climb list</h2>
-    <div>
-      <ul class="body">
-        <li v-for="climb in currentClimbs" :key="climb.id">
-          <div class="climb">
-            <span>
-              {{ climb.station }}
-            </span>
-            <span class="climbInfo">
-              <router-link :to="{ name: 'Climb', params: { id: climb.id } }">          
-                <span>{{ climb.colour }}</span>
-                <span>{{ climb.grade }}</span> 
-              </router-link>  
-            </span> 
-          </div>                            
-        </li>
-      </ul>
-    </div>    
+  <div class="home">  
+    <h2>Current climbs</h2>  
+    <ClimbList :climbs="currentClimbs" :showCurrent="false" :showAnchor="true" />     
   </div>
 </template>
 
@@ -25,9 +9,11 @@
 import { ref } from 'vue';
 import { db } from '../firebase/config';
 import { collection, getDocs, where, query } from '@firebase/firestore';
+import ClimbList from '../components/ClimbList.vue';
 
 export default {
     name: "Home",
+    components: { ClimbList },
     setup() {
         const currentClimbs = ref([]);
         const currentQuery = query(collection(db, "climbs"), where("current", "==", true));
@@ -41,7 +27,7 @@ export default {
                 climbs.push({ ...climb.data(), id: climb.id });
             });
             currentClimbs.value = climbs.sort(function(a, b) {
-              return a.station - b.station
+              return a.anchor - b.anchor
              });
         });
         return { currentClimbs };
@@ -50,21 +36,13 @@ export default {
 </script>
 
 <style scoped>
-  li {
-    list-style: none;
-    padding: 10px;
-    border: solid 1px var(--secondary);
-    margin: 10px 0;
-    max-width: 30%;
-  }
-  .body {
-    
-  }
-  span {
-    padding: 0 10px;
-  }
   .home {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  h2 {
+    padding: 10px;
   }
 </style>

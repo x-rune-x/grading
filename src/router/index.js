@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import AddClimb from '../views/AddClimb.vue'
+import EditClimb from '../views/EditClimb.vue'
 import Climb from '../views/Climb.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import UserDetails from '../views/UserDetails.vue'
 import Verify from '../views/Verify.vue'
 import About from '../views/About.vue'
+import Anchor from '../views/Anchor.vue'
 
 const routes = [
   {
@@ -20,9 +22,21 @@ const routes = [
     component: AddClimb
   },
   {
+    path: '/EditClimb/:id',
+    name: 'EditClimb',
+    component: EditClimb,
+    props: true
+  },
+  {
     path: '/climb/:id',
     name: 'Climb',
     component: Climb,
+    props: true
+  },
+  {
+    path: '/Anchor/:anchor',
+    name: 'Anchor',
+    component: Anchor,
     props: true
   },
   {
