@@ -12,8 +12,10 @@
       <label for="password">Enter password</label>
       <input type="password" name="password" v-model="password" required autocomplete="new-password">
 
-      <button>Signup</button>
-      <div v-if="error" class="error">{{ error }}</div>
+      <div class="signup">
+        <button>Sign up</button>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>      
     </form>
   </div>
 </template>
@@ -46,6 +48,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  h3 {
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  .signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 </style>

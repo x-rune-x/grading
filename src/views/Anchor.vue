@@ -1,11 +1,12 @@
 <template>
   <div class="anchor">
-    <ClimbList :climbs="anchorClimbs" :showCurrent="true" :showAnchor="false" />
+    <h3>Anchor {{ anchor }}</h3>
+    <ClimbList :climbs="sortedClimbs" :showCurrent="true" :showAnchor="false" :showDate="true" />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { db } from '../firebase/config';
 import { collection, getDocs, where, query } from '@firebase/firestore';
 import ClimbList from '../components/ClimbList.vue';
@@ -20,16 +21,34 @@ export default {
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
-    getDocs(anchorQuery)
-        .then(snap => {
-        let climbs = [];
-        snap.docs.forEach(climb => {
-            climbs.push({ ...climb.data(), id: climb.id });
-        });
-        anchorClimbs.value = climbs
-    });
+    const getClimbs = async () => {
+      await getDocs(anchorQuery)
+          .then(snap => {
+          let climbs = [];
+          snap.docs.forEach(climb => {
+              climbs.push({ ...climb.data(), id: climb.id });
+          });
+          anchorClimbs.value = climbs
+      });
+    }
 
-    return { anchorClimbs, anchorClimbs };
+    getClimbs()
+
+    const sortedClimbs = computed(() => {
+      const currentClimbs = anchorClimbs.value.filter((climb) => {
+        return climb.current == true
+      })
+      currentClimbs.sort((a, b) => (a.grade < b.grade) ? 1 : -1)
+
+      const nonCurrentClimbs = anchorClimbs.value.filter((climb) => {
+        return climb.current == false
+      })
+      nonCurrentClimbs.sort((a, b) => (a.grade < b.grade) ? 1 : (a.grade === b.grade) ? ((a.dateAdded < b.dateAdded) ? 1 : -1) : -1 )
+
+      return currentClimbs.concat(nonCurrentClimbs)
+    })
+
+    return { sortedClimbs };
   }
 }
 </script>

@@ -10,9 +10,10 @@
     <label for="grade">Grade - If climb grade is ? enter 0</label>
     <input type="number" name="grade" v-model="grade">
 
-    <button>Add climb</button>
-
-    <p v-if="error" class="error">{{ error }}</p>
+    <div class="submitClimb">
+      <button>Add climb</button>
+      <p v-if="error" class="error">{{ error }}</p>
+    </div>    
   </form>
 </template>
 
@@ -72,7 +73,9 @@ export default {
     width: 50%;
     text-align: center;
   }
-  button {
-    justify-self: center;
+  .submitClimb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

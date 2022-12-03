@@ -8,8 +8,10 @@
       <label for="password">Enter password</label>
       <input type="password" name="password" v-model="password" required autocomplete="current-password">
 
-      <button>Signin</button>
-      <div v-if="error" class="error">{{ error }}</div>
+      <div class="login">
+        <button>Signin</button>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>      
     </form>
   </div>
 </template>
@@ -42,5 +44,13 @@ export default {
 </script>
 
 <style>
-
+  h3 {
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 </style>

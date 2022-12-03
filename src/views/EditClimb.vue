@@ -7,19 +7,20 @@
     <label for="colour">Colour</label>
     <input type="text" name="colour" v-model="colour">
 
-    <label for="grade">Grade</label>
+    <label for="grade">Grade - If climb grade is ? enter 0</label>
     <input type="number" name="grade" v-model="grade">
 
-    <p>If climb grade is ? put in 0</p>
-
-    <button>Edit climb</button>
+    <div class="submitClimb">
+      <button>Edit climb</button>      
+    </div>
+    
   </form>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import { db } from '../firebase/config'
-import { doc, collection, getDoc, updateDoc } from '@firebase/firestore'
+import { doc, getDoc, updateDoc } from '@firebase/firestore'
 import { useRouter } from 'vue-router'
 
 export default {
@@ -28,7 +29,7 @@ export default {
   setup(props) {
     const anchor = ref('')
     const colour = ref('')
-    const grade = ref('')
+    const grade = ref('') 
 
     const router = useRouter()
 
@@ -73,6 +74,18 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  p {
+    padding: 10px 0;
+  }
+  h3 {
+    margin: 0 auto 15px auto;
+    width: 50%;
+    text-align: center;
+  }
+  .submitClimb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 </style>

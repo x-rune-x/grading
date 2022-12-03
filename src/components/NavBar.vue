@@ -1,32 +1,35 @@
 <template>
   <div class="header">
     <nav>
-      <div class="leftComponents">
-        <router-link :to="{ name: 'Home' }">
-          <h1 class="title headerComponent">Urban Climb lead grades</h1>
-        </router-link>
+      <router-link :to="{ name: 'Home' }">
+        <h1 class="title headerComponent">Urban Climb lead grades</h1>
+      </router-link>
 
-        <router-link :to="{ name: 'AddClimb' }">
-          <button class="headerComponent">Add climb</button>
-        </router-link>
-      </div>      
+      <div class="actions">
+        <div class="leftComponents">
+          <router-link :to="{ name: 'AddClimb' }">
+            <button class="headerComponent">Add climb</button>
+          </router-link>
+        </div>      
 
-      <div v-if="!user" class="headerComponent user">
-        <router-link :to="{ name: 'Signup' }">
-          <span>Sign up</span>
-        </router-link>
+        <div v-if="!user" class="headerComponent user">
+          <router-link :to="{ name: 'Signup' }">
+            <span class="userComp">Sign up</span>
+          </router-link>
 
-        <router-link :to="{ name: 'Login' }">
-          <span>Login</span>
-        </router-link>
-      </div>      
+          <router-link :to="{ name: 'Login' }">
+            <span class="userComp">Login</span>
+          </router-link>
+        </div>      
 
-      <div v-if="user" class="headerComponent user">          
-        <router-link :to="{ name: 'UserDetails' }">
-          <span class="headerComponent userComp">{{ user.displayName }}</span>
-        </router-link>   
-        <button @click="handleSignout">Logout</button>     
+        <div v-if="user" class="headerComponent user">          
+          <router-link :to="{ name: 'UserDetails' }">
+            <span class="headerComponent userComp">{{ user.displayName }}</span>
+          </router-link>   
+          <button @click="handleSignout">Logout</button>     
+        </div>
       </div>
+      
     </nav>    
   </div>
 </template>
@@ -61,11 +64,15 @@ export default {
     justify-content: center;
   }
   nav {   
+    width: 85vw;
+    padding: 20px 0 15px 0;
+  }
+  .actions {
+    padding-top: 15px;
+    margin: 0 auto 0 auto;
     display: flex;
-    align-items: center;
-    width: 90vw;
-    padding: 20px 0;
     justify-content: space-between;
+    align-items: center;
   }
   .headerComponent {
     display: inline-block;
@@ -75,7 +82,11 @@ export default {
     text-align: left;
   }
   .userComp {
-    padding: 0 10px;
+    padding: 5px 10px;
+    font-size: large;
+  }
+  .userComp:hover {
+    border-bottom: solid 2px rgb(173, 173, 190);
   }
   .leftComponents {
     display: flex;

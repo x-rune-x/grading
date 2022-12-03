@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="profileDetails">
     <h3>Profile</h3>
-    <span>Email: {{ user.email }}</span>
-    <span>Display name: {{ user.displayName }}</span>
+    <div class="detail">Email: {{ user.email }}</div>
+    <div class="detail">Display name: {{ user.displayName }}</div>
     <button @click="handlePasswordReset">Reset password</button>   
-    <span v-if="message">{{ message }}</span> 
+    <div class="detail" v-if="message">{{ message }}</div> 
   </div>
 </template>
 
@@ -36,6 +36,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .profileDetails {
+    padding: 10px;
+  }
+  h3 {
+    padding-bottom: 10px;
+  }
+  .detail {
+    padding-bottom: 10px;
+  }
 </style>

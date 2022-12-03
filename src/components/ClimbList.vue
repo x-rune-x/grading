@@ -6,6 +6,7 @@
         <th>Colour</th>
         <th>Grade</th>
         <th v-if="showCurrent">Current</th>
+        <th v-if="showDate">Date added</th>
       </thead>
       <tbody>
         <tr v-for="climb in climbs" :key="climb.id">
@@ -13,6 +14,7 @@
           <td class="individual-climb" @click="goToClimb(climb.id)">{{ climb.colour }}</td>
           <td class="individual-climb" @click="goToClimb(climb.id)">{{ climb.grade }}</td>
           <td class="individual-climb" @click="goToClimb(climb.id)" v-if="showCurrent">{{ climb.current }}</td>
+          <td class="individual-climb" @click="goToClimb(climb.id)" v-if="showDate">{{ formatDate(climb.dateAdded) }}</td>
         </tr>
       </tbody>
     </table>
@@ -23,7 +25,7 @@
 import { useRouter } from 'vue-router'
 
 export default {
-  props: ['climbs', 'showCurrent', 'showAnchor'],
+  props: ['climbs', 'showCurrent', 'showAnchor', 'showDate'],
   name: 'Climb List',
   setup() {
     const router = useRouter()
@@ -36,7 +38,13 @@ export default {
       router.push({ name: 'Anchor', params: { anchor: anchor } })
     }
 
-    return { goToClimb, goToAnchor }
+    const formatDate = (date) => {
+      let dateObj = date.toDate()
+      
+      return `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`
+    }
+
+    return { goToClimb, goToAnchor, formatDate }
   }
 }
 </script>

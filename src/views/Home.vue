@@ -1,7 +1,7 @@
 <template>
   <div class="home">  
     <h2>Current climbs</h2>  
-    <ClimbList :climbs="currentClimbs" :showCurrent="false" :showAnchor="true" />     
+    <ClimbList :climbs="currentClimbs" :showCurrent="false" :showAnchor="true" :showDate="false" />     
   </div>
 </template>
 
