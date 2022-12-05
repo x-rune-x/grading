@@ -2,7 +2,7 @@
   <div class="header">
     <nav>
       <router-link :to="{ name: 'Home' }">
-        <h1 class="title headerComponent">Urban Climb lead grades</h1>
+        <h1 class="title headerComponent">UC Blackburn lead grades</h1>
       </router-link>
 
       <div class="actions">
@@ -84,9 +84,11 @@ export default {
   .userComp {
     padding: 5px 10px;
     font-size: large;
+    transition: all ease 0.1s;
   }
   .userComp:hover {
-    border-bottom: solid 2px rgb(173, 173, 190);
+    color: rgb(160, 160, 160);
+    transition: all ease 0.1s;
   }
   .leftComponents {
     display: flex;

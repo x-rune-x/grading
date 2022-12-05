@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="handleSignup">
+    <form @submit.prevent="handleSignup" name="signup" id="signup">
       <h3>Sign up</h3>
 
       <label for="email">Enter email</label>
@@ -10,7 +10,7 @@
       <input type="text" name="displayName" v-model="displayName" required autocomplete="username">
 
       <label for="password">Enter password</label>
-      <input type="password" name="password" v-model="password" required autocomplete="new-password">
+      <input id="new-password" type="password" name="password" v-model="password" required autocomplete="new-password">
 
       <div class="signup">
         <button>Sign up</button>

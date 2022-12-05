@@ -1,5 +1,9 @@
 <template>  
   <form @submit.prevent="handleSubmit">
+    <div class="close">
+      <span @click="navigateBack()">close</span>
+    </div>  
+
     <h3>Add Climb</h3>
     <label for="anchor">Anchor</label>
     <input type="text" name="anchor" v-model="anchor">
@@ -22,6 +26,7 @@ import { ref } from '@vue/reactivity'
 import { db } from '../firebase/config'
 import { addDoc, collection, serverTimestamp } from '@firebase/firestore'
 import getUser from '../composables/getUser';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'AddClimb',
@@ -32,6 +37,7 @@ export default {
     const error = ref(null)
     
     const { user } = getUser()
+    const router = useRouter()
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
@@ -45,7 +51,7 @@ export default {
           grade: adjustedGrade,
           colour: colour.value.toLowerCase(),
           current: true,        
-          sGrades: [{ "number": 1, "sGrade": adjustedGrade, "user": "setter" }],
+          sGrades: [{ "number": 1, "sGrade": adjustedGrade, "user": "setter", "userId": 0}],
           dateAdded: serverTimestamp(),
           userId: user.value.uid
         })
@@ -59,7 +65,11 @@ export default {
       }     
     }
 
-    return { handleSubmit, anchor, colour, grade, error }
+    const navigateBack = () => {
+      router.go(-1)
+    }
+
+    return { handleSubmit, anchor, colour, grade, error, navigateBack }
   }
 }
 </script>
@@ -77,5 +87,18 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }  
+  .close {
+    display: flex;
+    justify-content: end;
+  }
+  span {    
+    color: rgb(160, 160, 160);
+    transition: all ease 0.1s;
+  }
+  span:hover {
+    cursor: pointer;
+    color: rgb(179, 179, 179);
+    transition: all ease 0.1s;
   }
 </style>

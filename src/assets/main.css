@@ -32,8 +32,9 @@ button, .btn {
   background: var(--tertiary);
   border-radius: 8px;
   border: 0;
-  padding: 8px 12px;
+  padding: 12px 18px;
   font-weight: 600;
+  font-size: medium;
   cursor: pointer;
   display: inline-block;
   outline: 1px solid var(--secondary);
@@ -70,8 +71,12 @@ input, textarea {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  margin: 20px auto;
+  margin: 10px auto 20px auto;
   border-radius: 5px;
+  font-size: large;
+}
+label {
+  font-size: large;
 }
 
 /* error text */

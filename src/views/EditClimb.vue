@@ -1,6 +1,12 @@
 <template>  
   <form @submit.prevent="editClimb">
+    <div class="close">
+      <router-link :to="{name: 'Climb', params: { id: id }}">
+        <span>close</span>
+      </router-link>      
+    </div>    
     <h3>Edit Climb</h3>
+    
     <label for="anchor">Anchor</label>
     <input type="text" name="anchor" v-model="anchor">
 
@@ -87,5 +93,18 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .close {
+    display: flex;
+    justify-content: end;
+  }
+  span {    
+    color: rgb(160, 160, 160);
+    transition: all ease 0.1s;
+  }
+  span:hover {
+    cursor: pointer;
+    color: rgb(179, 179, 179);
+    transition: all ease 0.1s;
   }
 </style>

@@ -33,28 +33,31 @@
       </span>
     </div>  
     
-    <div class="section" v-if="climb.userId == currentUId">
+    <div class="section climb-actions" v-if="climb.userId === currentUId">
       <router-link :to="{ name: 'EditClimb', params: { id: id } }">
-        <button>Edit</button>
+        <button class="actions">Edit</button>
       </router-link>    
-      <button @click="deleteClimb()">Delete</button>
+      <button class="actions" @click="deleteClimb()">Delete</button>
     </div>
     
-    <div class="suggest section">
+    <div class="grade-suggestions">
+      <div class="suggest section">
       <label for="sGrade">Suggest grade</label>
-      <input type="number" name="sGrade" id="gradeInput" :value="climb.grade">
-      <button @click="submitGrade()">submit</button>
-      <p v-if="error" class="error">{{ error }}</p>
-    </div> 
+        <input type="number" name="sGrade" id="gradeInput" :value="climb.grade">
+        <button @click="submitGrade()">submit</button>
+        <p v-if="error" class="error">{{ error }}</p>
+      </div> 
 
-    <label for="suggestions">Suggested grades</label>
-    <table name="suggestions">
-      <tr v-for="grade in climb.sGrades" :key="grade.number">
-        <td class="suggestionContent">{{grade.sGrade}}</td>
-        <td class="suggestionContent">{{grade.user}}</td>
-        <td @click="deleteSGrade(grade.number)" class="delete suggestionContent" v-if="grade.userId == currentUId">Delete</td>
-      </tr>
-    </table>         
+      <label for="suggestions">Suggested grades</label>
+      <table name="suggestions">
+        <tr v-for="grade in climb.sGrades" :key="grade.number">
+          <td class="suggestionContent">{{grade.sGrade}}</td>
+          <td class="suggestionContent">{{grade.user}}</td>
+          <td @click="deleteSGrade(grade.number)" class="delete suggestionContent" v-if="grade.userId == currentUId">Delete</td>
+        </tr>
+      </table>
+    </div>
+             
   </div>
 </template>
 
@@ -194,11 +197,16 @@ export default {
     flex-direction: column;
     align-items: center;
   }
+  .grade-suggestions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .info {
     display: flex;
   }
   .section {
-    padding: 15px;
+    padding: 15px 0;
   }
   .suggest {
     display: flex;
@@ -232,5 +240,14 @@ export default {
   }
   .delete:hover {
     cursor: pointer;
+  }
+  .climb-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  button.actions {
+    justify-self: center;
+    width: 70px;
+    margin: 0 10px;
   }
 </style>
