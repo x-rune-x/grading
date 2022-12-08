@@ -39,6 +39,11 @@
       </router-link>    
       <button class="actions" @click="deleteClimb()">Delete</button>
     </div>
+
+    <div class="section my-suggestion" v-if="currentSuggestion">
+      <label for="my-suggestion">My suggestion</label>
+      <div name="my-suggestion">{{ currentSuggestion.sGrade }}</div>
+    </div>
     
     <div class="grade-suggestions">
       <div class="suggest section">
@@ -64,7 +69,7 @@
 <script>
 import { ref, watchEffect } from 'vue'
 import { db } from '../firebase/config';
-import { arrayUnion, doc, onSnapshot, updateDoc, deleteDoc } from '@firebase/firestore';
+import { doc, onSnapshot, updateDoc, deleteDoc } from '@firebase/firestore';
 import getUser from '../composables/getUser';
 import { useRouter } from 'vue-router';
 
@@ -79,6 +84,7 @@ export default {
     const mostCommonGrade = ref(null)
     const currentUId = user.value ? user.value.uid : null
     const error = ref(null)
+    const currentSuggestion = ref(null)
 
     const router = useRouter()
     
@@ -87,11 +93,18 @@ export default {
     onSnapshot(doc(db, 'climbs', props.id), (climbSnap) => {
       climb.value = climbSnap.data()
 
+      // Get the average
       let grades = climb.value.sGrades.map(grade => grade.sGrade)
-      grades = grades.filter(grade => grade != '?')
+      grades = grades.filter(grade => grade != '?') // ? won't work for average.
      
       meanGrade.value = (grades.reduce((prev, next) => prev + next, 0) / grades.length).toFixed(2)
       mostCommonGrade.value = findMode(grades)
+
+      const userSuggestion = climb.value.sGrades.filter((sGrade) => {
+        return sGrade.userId == currentUId
+      })
+
+      currentSuggestion.value = userSuggestion[0] // Should only allow one suggestion so array should not have length greater than 1.
     })
 
     const findMode = (array) => {
@@ -125,21 +138,29 @@ export default {
       } 
     })   
 
-    const submitGrade = async () => {
+    const submitGrade = async () => {  
       if (user.value) {
         const climbRef = doc(db, 'climbs', props.id)
         const number = climb.value.sGrades.length + 1
-        
-        const gradeInfo = {
-          sGrades: arrayUnion({
+        const suggestedGrade = parseInt(document.getElementById('gradeInput').value)
+
+        if (suggestedGrade > 0) {
+          const updatedSGrades = climb.value.sGrades.filter((sGrade) => {
+            return sGrade.userId != currentUId
+          })
+
+          updatedSGrades.push({
             number: number,
-            sGrade: parseInt(document.getElementById('gradeInput').value),
+            sGrade: suggestedGrade,
             user: user.value.displayName,
             userId: user.value.uid
           })
-        }
 
-        await updateDoc(climbRef, gradeInfo)
+          await updateDoc(climbRef, { sGrades: updatedSGrades })
+        }      
+        else {
+          error.value = "Please suggest a grade above 0."
+        }
       }
       else {
         error.value = "Please login to submit your grade for the climb."
@@ -160,6 +181,7 @@ export default {
         return grade.number != numbertoDelete
       })
 
+      // arrayRemove could work for this too.
       await updateDoc(climbRef, {
         sGrades: sGrades
       })
@@ -183,12 +205,15 @@ export default {
       router.push({ name: 'Anchor', params: { anchor: anchor } })
     }    
 
-    return { climb, submitGrade, currentElement, handleCurrentClick, goToAnchor, meanGrade, mostCommonGrade, deleteClimb, currentUId, error, deleteSGrade }
+    return { climb, submitGrade, currentElement, handleCurrentClick, goToAnchor, meanGrade, mostCommonGrade, currentSuggestion, deleteClimb, currentUId, error, deleteSGrade }
   }
 }
 </script>
 
 <style scoped>
+  div {
+    font-size: large;
+  }
   .anchor:hover {
     cursor: pointer;
   }
@@ -244,10 +269,15 @@ export default {
   .climb-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    justify-items: center;
   }
   button.actions {
-    justify-self: center;
     width: 70px;
-    margin: 0 10px;
+    text-align: center;
+  }
+  .my-suggestion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

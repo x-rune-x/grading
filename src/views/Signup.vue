@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="handleSignup" name="signup" id="signup">
-      <h3>Sign up</h3>
+      <h2>Sign up</h2>
 
       <label for="email">Enter email</label>
       <input type="email" name="email" v-model="email" required autocomplete="email">
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style scoped>
-  h3 {
+  h2 {
     text-align: center;
     padding-bottom: 15px;
   }

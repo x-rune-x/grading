@@ -59,12 +59,20 @@ export default {
     min-width: 300x;
     text-align: center;
   }
-  .individual-climb:hover, .anchor:hover {
+  .individual-climb:hover {
     cursor: pointer;
   }
+  .anchor {
+    transition: all ease 0.1s;
+  }
+  .anchor:hover {
+    cursor: pointer;
+    border-bottom: solid 2px rgb(1, 204, 255);
+    transition: all ease 0.1s;
+  }
   td {
-    padding: 5px 0;
-    font-size: large;
+    padding: 10px 0;
+    font-size: larger;
   }
   th {
     font-size: large;
@@ -72,9 +80,11 @@ export default {
   }
   tr {
     border-bottom: solid 1px rgba(160, 160, 160, 0.333);
+    transition: all ease 0.1s;
   }
   tr:hover {
     border-bottom: solid 2px rgb(71, 68, 255);
+    transition: all ease 0.1s;
   }
   th {
     padding: 5px 0;
