@@ -62,7 +62,16 @@
         </tr>
       </table>
     </div>
-             
+    
+    
+    <div class="confirmation-container" id="confirmation-popup" ref="confirmationPopup">
+      <h2>Delete climb</h2>
+      <p>Are you sure you want to delete this climb?</p>
+      <div class="confirmation-buttons">
+        <button @click="closeConfirmation()">Cancel</button>
+        <button @click="deleteClimb()">Delete</button>
+      </div>
+    </div>    
   </div>
 </template>
 
@@ -87,6 +96,7 @@ export default {
     const currentSuggestion = ref(null)
 
     const router = useRouter()
+    const confirmationPopup = ref(null)
     
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
@@ -168,6 +178,7 @@ export default {
       
     }
 
+    // ToDo make check before deleting.
     const deleteClimb = async () => {
       await deleteDoc(doc(db, 'climbs', props.id))
 
@@ -205,7 +216,7 @@ export default {
       router.push({ name: 'Anchor', params: { anchor: anchor } })
     }    
 
-    return { climb, submitGrade, currentElement, handleCurrentClick, goToAnchor, meanGrade, mostCommonGrade, currentSuggestion, deleteClimb, currentUId, error, deleteSGrade }
+    return { climb, submitGrade, currentElement, handleCurrentClick, goToAnchor, meanGrade, mostCommonGrade, currentSuggestion, deleteClimb, currentUId, error, deleteSGrade, confirmationPopup }
   }
 }
 </script>
@@ -273,11 +284,23 @@ export default {
   }
   button.actions {
     width: 70px;
-    text-align: center;
+    height: 40px;
+    padding: 0;
+    margin: 0 10px;
   }
   .my-suggestion {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .confirmation-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 1px 2px 3px rgba(50,50,50,0.05);
+    border: 1px solid  var(--secondary);
+    background: white;
   }
 </style>

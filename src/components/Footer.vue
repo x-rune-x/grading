@@ -2,10 +2,10 @@
   <div class="footer">
     <div class="links">
       <router-link :to="{ name: 'Home' }" class="footerComponent">
-        <span>Home</span>
+        <span class="footer-link">Home</span>
       </router-link>
       <router-link :to="{ name: 'About' }">
-        <span>About</span>
+        <span class="footer-link">About</span>
       </router-link>      
     </div>
     <div class="logo">
@@ -52,5 +52,8 @@ export default {
   }
   .links {
     padding: 10px;
+  }
+  .footer-link {
+    font-size: large;
   }
 </style>
