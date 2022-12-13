@@ -37,12 +37,23 @@
       <router-link :to="{ name: 'EditClimb', params: { id: id } }">
         <button class="actions">Edit</button>
       </router-link>    
-      <button class="actions" @click="deleteClimb()">Delete</button>
+      <button class="actions" @click="showPopup()">Delete</button>
     </div>
+
+    <div class="confirmation-container" id="confirmation-popup" ref="confirmationPopup">
+      <p class="confirmation-text">Are you sure you want to delete this climb?</p>
+      <div class="confirmation-buttons">
+        <button @click="closeConfirmation()">Cancel</button>
+        <button @click="deleteClimb()">Delete</button>
+      </div>
+    </div> 
 
     <div class="section my-suggestion" v-if="currentSuggestion">
       <label for="my-suggestion">My suggestion</label>
-      <div name="my-suggestion">{{ currentSuggestion.sGrade }}</div>
+      <div class="suggestion">
+        <span class="suggestion-grade" name="my-suggestion">{{ currentSuggestion.sGrade }}</span>
+        <span class="delete" @click="deleteSGrade(currentSuggestion.number)">Delete</span>        
+      </div>      
     </div>
     
     <div class="grade-suggestions">
@@ -58,20 +69,9 @@
         <tr v-for="grade in climb.sGrades" :key="grade.number">
           <td class="suggestionContent">{{grade.sGrade}}</td>
           <td class="suggestionContent">{{grade.user}}</td>
-          <td @click="deleteSGrade(grade.number)" class="delete suggestionContent" v-if="grade.userId == currentUId">Delete</td>
         </tr>
       </table>
-    </div>
-    
-    
-    <div class="confirmation-container" id="confirmation-popup" ref="confirmationPopup">
-      <h2>Delete climb</h2>
-      <p>Are you sure you want to delete this climb?</p>
-      <div class="confirmation-buttons">
-        <button @click="closeConfirmation()">Cancel</button>
-        <button @click="deleteClimb()">Delete</button>
-      </div>
-    </div>    
+    </div>  
   </div>
 </template>
 
@@ -178,7 +178,16 @@ export default {
       
     }
 
-    // ToDo make check before deleting.
+    const showPopup = () => {
+      confirmationPopup.value.style.visibility = 'visible'
+      confirmationPopup.value.style.display = 'block'
+    }
+
+    const closeConfirmation = () => {
+      confirmationPopup.value.style.visibility = 'hidden'
+      confirmationPopup.value.style.display = 'none'
+    }
+
     const deleteClimb = async () => {
       await deleteDoc(doc(db, 'climbs', props.id))
 
@@ -216,7 +225,7 @@ export default {
       router.push({ name: 'Anchor', params: { anchor: anchor } })
     }    
 
-    return { climb, submitGrade, currentElement, handleCurrentClick, goToAnchor, meanGrade, mostCommonGrade, currentSuggestion, deleteClimb, currentUId, error, deleteSGrade, confirmationPopup }
+    return { climb, submitGrade, showPopup, closeConfirmation, currentElement, handleCurrentClick, goToAnchor, meanGrade, mostCommonGrade, currentSuggestion, deleteClimb, currentUId, error, deleteSGrade, confirmationPopup }
   }
 }
 </script>
@@ -224,6 +233,13 @@ export default {
 <style scoped>
   div {
     font-size: large;
+  }
+  .confirmation-text {
+    padding-bottom: 15px;
+  }
+  .confirmation-buttons {
+    display: flex;
+    justify-content: space-evenly;
   }
   .anchor:hover {
     cursor: pointer;
@@ -274,8 +290,21 @@ export default {
   table {
     text-align: center;
   }
+  .suggestion {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  /* .suggestion-grade {
+    padding: 0 10px;
+  } */
+  .delete {
+    transition: all ease 0.1s;
+  }
   .delete:hover {
     cursor: pointer;
+    transition: all ease 0.1s;
+    color: rgb(160, 160, 160);
   }
   .climb-actions {
     display: grid;
@@ -293,8 +322,9 @@ export default {
     flex-direction: column;
     align-items: center;
   }
-
   .confirmation-container {
+    visibility: hidden;
+    display: none;
     max-width: 400px;
     margin: 0 auto;
     padding: 20px 30px;
@@ -302,5 +332,6 @@ export default {
     box-shadow: 1px 2px 3px rgba(50,50,50,0.05);
     border: 1px solid  var(--secondary);
     background: white;
+    transition:opacity 0.5s linear
   }
 </style>
