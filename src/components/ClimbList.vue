@@ -1,5 +1,29 @@
 <template>
-  <div class="list">
+  <div>
+    <div class="filter-table">
+      <div class="filters">
+        <span>
+          <label for="anchor">Anchor</label>
+          <input v-model="filterAnchor" name="anchor" type="number">
+        </span>
+        
+        <span>
+          <label for="colour">Colour</label>
+          <input v-model="filterColour" name="colour" type="text">
+        </span>
+        
+        <span>
+          <label for="grade">Grade</label>
+          <input v-model="filterGrade" name="grade" type="number">
+        </span>        
+      </div>
+      <div>
+        <button @click="resetClimbs()">Reset</button>
+        <button @click="filterClimbs()">Filter</button>
+      </div>
+    </div>
+  </div>
+  <div class="list">    
     <table class="content-table">
       <thead>
         <th v-if="showAnchor">Anchor</th>
@@ -9,7 +33,7 @@
         <th v-if="showDate">Date added</th>
       </thead>
       <tbody>
-        <tr v-for="climb in climbs" :key="climb.id">
+        <tr v-for="climb in climbsToShow" :key="climb.id">
           <td class="anchor" @click="goToAnchor(climb.anchor)" v-if="showAnchor">{{ climb.anchor }}</td>
           <td class="individual-climb" @click="goToClimb(climb.id)">{{ climb.colour }}</td>
           <td class="individual-climb" @click="goToClimb(climb.id)">{{ climb.grade }}</td>
@@ -22,13 +46,60 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default {
   props: ['climbs', 'showCurrent', 'showAnchor', 'showDate'],
   name: 'Climb List',
-  setup() {
+  setup(props) {
     const router = useRouter()
+    const climbsToShow = ref([])
+
+    // Watch for changes in props.climbs and update climbsToShow accordingly
+    watch(() => props.climbs, (newClimbs) => {
+      climbsToShow.value = newClimbs
+    })
+
+    console.log(props.climbs)
+
+    const filterAnchor = ref(null)
+    const filterColour = ref(null)
+    const filterGrade = ref(null)
+
+    const filterClimbs = () => { // Apparently cannot access arguments object for arrow functions.
+      console.log(filterAnchor.value, filterColour.value, filterGrade.value)
+
+      let filteredClimbs = [...props.climbs]
+
+      if (filterAnchor.value) {
+        filteredClimbs = filteredClimbs.filter((climb) => {
+          console.log(typeof climb.anchor, typeof filterAnchor.value)
+          return climb.anchor == filterAnchor.value          
+        })
+      }    
+      if (filterColour.value) {
+        filteredClimbs = filteredClimbs.filter((climb) => {
+          return climb.colour == filterColour.value          
+        })
+      } 
+      if (filterGrade.value) {
+        filteredClimbs = filteredClimbs.filter((climb) => {
+          return climb.grade == filterGrade.value         
+        })
+      } 
+
+      climbsToShow.value = filteredClimbs
+      console.log(climbsToShow.value)
+    }
+
+    const resetClimbs = () => {
+      climbsToShow.value = props.climbs
+
+      filterAnchor.value = null
+      filterColour.value = null
+      filterGrade.value = null
+    }
 
     const goToClimb = (climbId) => {
       router.push({ name: 'Climb', params: { id: climbId } })
@@ -44,7 +115,7 @@ export default {
       return `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`
     }
 
-    return { goToClimb, goToAnchor, formatDate }
+    return { goToClimb, goToAnchor, formatDate, resetClimbs, filterClimbs, climbsToShow, filterAnchor, filterColour, filterGrade }
   }
 }
 </script>
@@ -53,6 +124,9 @@ export default {
   .list {
     display: flex;
     justify-content: center;
+  }
+  .filters {
+    display: flex;
   }
   .content-table {
     border-collapse: collapse;
