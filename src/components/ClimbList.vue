@@ -4,21 +4,21 @@
       <div class="filters">
         <span>
           <label for="anchor">Anchor</label>
-          <input ref="filterAnchor" name="anchor" type="number">
+          <input v-model="filterAnchor" name="anchor" type="number">
         </span>
         
         <span>
           <label for="colour">Colour</label>
-          <input ref="filterColour" name="colour" type="text">
+          <input v-model="filterColour" name="colour" type="text">
         </span>
         
         <span>
           <label for="grade">Grade</label>
-          <input ref="filterGrade" name="grade" type="number">
+          <input v-model="filterGrade" name="grade" type="number">
         </span>        
       </div>
       <div>
-        <button>Reset</button>
+        <button @click="resetClimbs()">Reset</button>
         <button @click="filterClimbs()">Filter</button>
       </div>
     </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default {
@@ -54,9 +54,14 @@ export default {
   name: 'Climb List',
   setup(props) {
     const router = useRouter()
-    const climbsToShow = ref(props.climbs)
+    const climbsToShow = ref([])
 
-    console.log(props.climbs, "Chicken")
+    // Watch for changes in props.climbs and update climbsToShow accordingly
+    watch(() => props.climbs, (newClimbs) => {
+      climbsToShow.value = newClimbs
+    })
+
+    console.log(props.climbs)
 
     const filterAnchor = ref(null)
     const filterColour = ref(null)
@@ -64,24 +69,28 @@ export default {
 
     const filterClimbs = () => { // Apparently cannot access arguments object for arrow functions.
       console.log(filterAnchor.value, filterColour.value, filterGrade.value)
-      if (filterAnchor) {
-        climbsToShow.value = props.climbs.filter((climb) => {
-          return climb.anchor == filterAnchor          
+
+      let filteredClimbs = [...props.climbs]
+
+      if (filterAnchor.value) {
+        filteredClimbs = filteredClimbs.filter((climb) => {
+          console.log(typeof climb.anchor, typeof filterAnchor.value)
+          return climb.anchor == filterAnchor.value          
         })
       }    
-      if (filterColour) {
-        climbsToShow.value = props.climbs.filter((climb) => {
-          return climb.colour == filterColour          
+      if (filterColour.value) {
+        filteredClimbs = filteredClimbs.filter((climb) => {
+          return climb.colour == filterColour.value          
         })
       } 
-      if (filterGrade) {
-        climbsToShow.value = props.climbs.filter((climb) => {
-          return climb.grade == filterGrade          
+      if (filterGrade.value) {
+        filteredClimbs = filteredClimbs.filter((climb) => {
+          return climb.grade == filterGrade.value         
         })
       } 
-      
+
+      climbsToShow.value = filteredClimbs
       console.log(climbsToShow.value)
-      console.log(props.climbs)
     }
 
     const resetClimbs = () => {
